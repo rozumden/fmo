@@ -1,0 +1,9 @@
+function [F,J] = get_F(I, b, traj, r)
+len = sum(traj(:));
+M = APP.gen_ball(r);
+alp = repmat(conv2(traj, double(M), 'same')/len, [1 1 3]);
+J = deconvwnr(len*(I - (1 - alp) .* b), traj, 30);
+centre = floor(size(J)/2) + 1;
+r1 = r - 1;
+F = J((centre(1) - r1):(centre(1) + r1),:,:);
+F = F(:,(centre(2) - r1):(centre(2) + r1),:);

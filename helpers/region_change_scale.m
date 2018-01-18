@@ -1,0 +1,10 @@
+function xy = region_change_scale(xy0,sc)
+m = min(xy0')'-1;
+xy1 = bsxfun(@minus,xy0,m);
+mx = max(xy1')';
+sz = [mx(2) mx(1)];
+BW = logical(zeros(sz));
+BW(sub2ind(sz,xy1(2,:),xy1(1,:))) = 1;
+BW = imresize(BW,sc,'nearest');
+[y x] = find(BW);
+xy = bsxfun(@plus, [x'; y'], m*sc);

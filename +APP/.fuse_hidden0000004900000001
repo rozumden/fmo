@@ -1,0 +1,8 @@
+function out = remove(back, front, fmo)
+se = strel('square',11);
+BW = logical(zeros(size(back,1),size(back,2)));
+BW(fmo.PixelIdxList) = 1;
+BW2 = imdilate(BW,se);
+mask = repmat(BW2,[1 1 3]);
+out = front;
+out(find(mask)) = back(find(mask)); 

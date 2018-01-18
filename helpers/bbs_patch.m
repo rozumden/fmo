@@ -1,0 +1,16 @@
+function [hog, ptch] = bbs_patch(im,bbs,coeff,r)
+bbs = bbs - [15 15 -30 -30];
+bbs(3:4) = bbs(1:2) + bbs(3:4);
+bbs(bbs < 1) = 1; 
+if bbs(3) > size(im,2), bbs(3) = size(im,2); end
+if bbs(4) > size(im,1), bbs(4) = size(im,1); end  
+ptch = im(bbs(2):bbs(4), bbs(1):bbs(3),:);
+ang = atan(coeff(1))*180/pi;
+ptch = imrotate(ptch,ang,'bilinear');
+psz = size(ptch);
+mdl = round(psz(1:2)/2);
+r = double(r) + 3;
+ptch = ptch((mdl(1)-r):(mdl(1)+r),18:(end-18),:);
+cellSize = 3;
+ptch = imresize(ptch, [4*cellSize 20*cellSize]);
+hog = vl_hog(im2single(ptch), cellSize, 'NumOrientations', 8);

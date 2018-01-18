@@ -1,0 +1,10 @@
+function [bint,bin] = get_binary(im1,im2,thresh,inter)
+dInoisy = abs(single(rgb2gray(im2))/255 - single(rgb2gray(im1))/255);
+denoise = ones(3) / 9;
+dI = conv2(dInoisy, denoise, 'same');
+bin = abs(dI) > thresh;
+bin = ~bwareaopen(~bin,inter(1));
+bin = bwmorph(bin,'bridge');
+bint = bwmorph(bin,'thin',Inf);
+bint = bwareaopen(bint,inter(1));
+% bin = xor(bwareaopen(bin,inter(1)),bwareaopen(bin,inter(2)));
