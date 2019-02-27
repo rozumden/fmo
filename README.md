@@ -1,4 +1,4 @@
 # fmo
 
-EVAL.init
-EVAL.run
+1) EVAL.init
+2) EVAL.run
